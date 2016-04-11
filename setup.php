@@ -1,39 +1,54 @@
 <?php
 
-// Affiche les infos de base dans configuation/plugin
+/**
+ * Fonction de définition de la version du plugin
+ * @return type
+ */
 function plugin_version_carburant(){
-	return array(
-	'name'          => "carburant",
-	'version'       => '0.0.1',
-	'author'        => 'Benoit Rodriguez',
-	// 'license'       => 'GPLv2+',
-	'homepage'      => 'https://equipements.sdis14.fr/front/central.php',
-	'minGlpiVersion'=> '0.90',
-	'maxGlpiVersion'=> '0.90'
-	);
+    return array('name'           => "carburant",
+                 'version'        => '1.0.0',
+                 'author'         => 'Benoit Rodriguez',
+                 'license'        => 'GPLv2+',
+                 'homepage'       => 'https://equipements.sdis14.fr/front/central.php',
+                 'minGlpiVersion' => '0.90.1');// For compatibility
 }
 
-// Teste si la version est bien 0.90
+/**
+ * Fonction de test des prérequis à l'exécution du plugin
+ * Obligatoire
+ */
+
 function plugin_carburant_check_prerequisites(){
-	if (version_compare(GLPI_VERSION, '0.90', 'lt') || version_compare(GLPI_VERSION, '0.91', 'ge')) {
-		echo('This plugin requires GLPI >= 0.90');
-		return false;
+    if (GLPI_VERSION >= 0.90.1)
+        return true;
+    echo "A besoin de la version 0.90.1 au minimum";
+    return false; 
+}        
+
+/**
+ * Fonction de vérification de la configuration initiale
+ * Non modifié par rapport à celle de l'exemple
+ * @param type $verbose
+ * @return boolean
+ */
+function plugin_carburant_check_config($verbose=false){
+	if (true){ // Your configuration check
+		return true;
 	}
-	return true;
-	
+	if ($verbose){
+		echo 'Installed / not configured';
+	}
+	return false;
 }
 
-// Fonction obligatoire.
-// function plugin_carburant_check_config(){
-	// return true;
-// }
-
-// Fonction d'initialisation du plugin.
-function plugin_init_carburant (){
+/**
+ * Fonction d'initialisation du plugin
+ * @global array $PLUGIN_HOOKS
+ */
+function plugin_init_carburant(){
 	global $PLUGIN_HOOKS;
-	$PLUGIN_HOOKS['csrf_compliant']['carburant'] = true; // Active les normes CSRF pour ce plugin.
-	// Instanciation des classes.
-	Plugin::registerClass('PluginCarburantCarburant');
-}
 
+	$PLUGIN_HOOKS['csrf_compliant']['carburant'] = true;
+
+} 
 ?>
